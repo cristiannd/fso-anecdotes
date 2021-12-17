@@ -5,6 +5,21 @@ const App = ({ anecdotes }) => {
   const [selected, setSelected] = useState(0)
   const [points, setPoints] = useState(new Uint8Array(anecdotes.length))
 
+  const findMostVote = (arr) => {
+    let max = 0
+    let res = 0
+
+    for (let i = 0; i < arr.length; i++) {
+      // console.log("Posición", i, "valor:", arr[i])
+      if (arr[i] >= max) {
+        max = arr[i]
+        res = i
+      }
+    }
+
+    return res
+  }
+
   const handleClickRandomAnecdote = () => {
     setSelected(parseInt(Math.random() * 5 + 1))
   }
@@ -17,9 +32,16 @@ const App = ({ anecdotes }) => {
 
   return (
     <div>
-      <div>{anecdotes[selected]}</div>
+      <h2>Anecdote of the day</h2>
+      <p>{anecdotes[selected]}</p>
       <button onClick={handleClickVote}>Vote</button>
       <button onClick={handleClickRandomAnecdote}>Next anecdote</button>
+
+      <h2>Anecdote with most votes</h2>
+      <p>
+        {anecdotes[findMostVote(points)]} <br />
+        has {points[findMostVote(points)]} votes
+      </p>
     </div>
   )
 }
